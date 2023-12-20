@@ -1,5 +1,7 @@
 var formEl = document.querySelector("#task-form");
 var tasksToDoEl = document.querySelector("#tasks-to-do");
+//* Create a counter that increments by one each time a task is created.
+var taskIdCounter = 0;
 
 var taskFormHandler = function (event) {
     event.preventDefault();
@@ -30,9 +32,12 @@ var createTaskEl = function (taskDataObj) {
     var listItemEl = document.createElement("li");
     listItemEl.className = "task-item";
 
+    //! Add task id as a custom attribute
+    listItemEl.setAttribute("data-task-id", taskIdCounter);
+
     //* Create the divs to hold task info and add to list item
     var taskInfoEl = document.createElement("div");
-    taskInfoEl.className = "task-info";     //* Give it a class name 
+    taskInfoEl.className = "task-info";     //? Give it a class name 
     //* Add HTML content to the div dynamically
     taskInfoEl.innerHTML = "<h3 class='task-name'>" + taskDataObj.name + "</h3><span class='task-type'>" + taskDataObj.type + "</span>";
 
@@ -41,7 +46,33 @@ var createTaskEl = function (taskDataObj) {
     //* Add entire list item to the whole list
     tasksToDoEl.appendChild(listItemEl);
 
+    //* Increase the task counter for the next unique id
+    taskIdCounter++;
+
     console.dir(listItemEl)
 }
+
+var createTaskActions = function (taskId) {
+    var actionContainerEl = document.createElement("div");
+    actionContainerEl.className = "task-actions";
+
+    //* Create Edit button
+    var editButtonEl = document.createElement("button");
+    editButtonEl.textContent = "Edit";
+    editButtonEl.className = "btn edit-btn";
+    editButtonEl.setAttribute("data-task-id", taskId);
+
+    actionContainerEl.appendChild(editButtonEl);
+
+    //* Create Delete button
+    var deleteButtonEl = document.createElement("button");
+    deleteButtonEl.textContent = "Delete";
+    deleteButtonEl.className = "btn delete-btn";
+    deleteButtonEl.setAttribute("data-task-id", taskId);
+
+    actionContainerEl.appendChild(deleteButtonEl);
+
+    return actionContainerEl;
+};
 
 formEl.addEventListener("submit", taskFormHandler);
