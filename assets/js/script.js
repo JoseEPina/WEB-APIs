@@ -18,14 +18,24 @@ var taskFormHandler = function (event) {
     //* reset the form element from the document 
     formEl.reset();
 
-    //* Create the task data as an object:
-    var taskDataObj = {
-        name: taskNameInput,
-        type: taskTypeInput
-    };
+    var isEdit = formEl.hasAttribute("data-task-id");
 
-    //* Send it as an argument to createTaskEl
-    createTaskEl(taskDataObj);
+    //* Has data attribute, so get task id and call function to complete edit process
+    if (isEdit) {
+        var taskId = formEl.getAttribute("data-task-id");
+        completeEditTask(taskNameInput, taskTypeInput, taskId);
+    }
+    //* No data attribute, so create object as normal and pass to createTaskEl function
+    else {
+        //* Create the task data as an object:
+        var taskDataObj = {
+            name: taskNameInput,
+            type: taskTypeInput
+        };
+
+        //* Send it as an argument to createTaskEl
+        createTaskEl(taskDataObj);
+    }
 }
 
 var createTaskEl = function (taskDataObj) {
@@ -145,6 +155,21 @@ var editTask = function (taskId) {
 
     document.querySelector("#save-task").textContent = "Save Task";
     formEl.setAttribute("data-task-id", taskId);
+}
+
+var completeEditTask = function (taskName, taskType, taskId) {
+    //console.log(taskName, taskType, taskId);
+    //* Find the matching task list item
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+
+    //! Set the new values
+    taskSelected.querySelector("h3.task-name").textContent = taskName;
+    taskSelected.querySelector("span.task-type").textContent = taskType;
+
+    alert("Task Updated");
+
+    formEl.removeAttribute("data-task-id");
+    document.querySelector("#save-task").textContent = "Add Task";
 }
 
 formEl.addEventListener("submit", taskFormHandler);
