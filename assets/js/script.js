@@ -250,43 +250,23 @@ var saveTasks = function () {
 
 var loadTasks = function () {
     //? Retrieve tasks from localStorage
-    var tasksArray = localStorage.getItem("tasks", JSON.stringify(tasksArray));
+    var savedTasks = localStorage.getItem("tasks");
     //? Check to see if localStorage is 'empty'(null)
-    if (!tasksArray) {
-        tasksArray = [];
+    if (!savedTasks) {
+        savedTasks = [];
         return false;
     }
 
     //? Get tasks back into an object array
-    tasksArray = JSON.parse(tasksArray);
+    savedTasks = JSON.parse(savedTasks);
 
-    //? Print task items back to the Page
-    for (var i = 0; i < tasksArray.length; i++) {
-        //console.log(tasksArray[i]);
-        taskIdCounter = tasksArray[i].id;
-        //* Create the list items  
-        var listItemEl = document.createElement("li");
-        listItemEl.className = "task-item";
-
-        //! Add task id as a custom attribute
-        listItemEl.setAttribute("data-task-id", taskIdCounter);
-
-        //* Create the divs to hold task info and add to list item
-        var taskInfoEl = document.createElement("div");
-        taskInfoEl.className = "task-info";     //? Give it a class name
-        //* Add HTML content to the div dynamically
-        taskInfoEl.innerHTML = "<h3 class='task-name'>" + tasksArray[i].name + "</h3><span class='task-type'>" + tasksArray[i].type + "</span>";
-
-        listItemEl.appendChild(taskInfoEl);
-
-        var taskActionsEl = createTaskActions(tasksArray[i].id)
-        listItemEl.appendChild(taskActionsEl);
-
-        console.log(listItemEl);
-
+    //? Loop through savedTasks array and
+    //? print task items back to the Page
+    for (var i = 0; i < savedTasks.length; i++) {
+        //* Pass each task object into the 'createTaskEl()' function
+        createTaskEl(savedTasks[i]);
     }
-    console.log(listItemEl);
-    console.log(tasksArray);
+    console.log(savedTasks);
 }
 
 formEl.addEventListener("submit", taskFormHandler);
