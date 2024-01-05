@@ -120,7 +120,7 @@ var createTaskActions = function (taskId) {
 };
 
 var taskButtonHandler = function (event) {
-    console.log(event.target);
+    // console.log(event.target);
     //* Get the target element from event
     var targetEl = event.target;
 
@@ -162,7 +162,7 @@ var deleteTask = function (taskId) {
 }
 
 var editTask = function (taskId) {
-    console.log("editing task #" + taskId);
+    // console.log("editing task #" + taskId);
 
     //* get task list item element
     var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
@@ -266,8 +266,7 @@ var loadTasks = function () {
         //* Pass each task object into the 'createTaskEl()' function
         createTaskEl(savedTasks[i]);
     }
-
-    console.log(savedTasks);
+    // console.log(savedTasks);
 }
 
 formEl.addEventListener("submit", taskFormHandler);
